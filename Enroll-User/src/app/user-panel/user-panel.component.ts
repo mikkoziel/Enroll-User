@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-user-panel',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-panel.component.css']
 })
 export class UserPanelComponent implements OnInit {
+  panelOpenState: boolean = false;
 
   constructor() { }
 

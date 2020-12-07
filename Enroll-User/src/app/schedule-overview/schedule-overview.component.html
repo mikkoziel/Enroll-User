@@ -1,0 +1,8 @@
+<div class="flex-column">
+    <div *ngFor="let schedule of(schedulesEmitter | async)"
+        class="schedule-box">
+        <p>{{ schedule.id }}</p>
+        <button [routerLink]="['/schedule-details', schedule.id]">More info</button>
+        <mat-divider></mat-divider>
+    </div>
+</div>
