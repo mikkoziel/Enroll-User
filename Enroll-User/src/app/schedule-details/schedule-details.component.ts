@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Schedule } from '../interfaces/schedule';
 import { ScheduleService } from '../services/schedule.service';
+import { ServerService } from '../services/server.service';
 
 @Component({
   selector: 'app-schedule-details',
@@ -9,22 +11,24 @@ import { ScheduleService } from '../services/schedule.service';
   styleUrls: ['./schedule-details.component.css']
 })
 export class ScheduleDetailsComponent implements OnInit {
-  schedules: Schedule[] = null;
+  panelOpenState: boolean = false;
+  id: number;
+  data: Schedule;
+  sub: Subscription;  
+  classes: Array<number> = [];
   
-  schedulesEmitter = new BehaviorSubject<Schedule[]>(this.schedules);
-
-  constructor(private scheduleService: ScheduleService) { 
-    this.getSchedules();
+  constructor(private _Activatedroute:ActivatedRoute,
+    private scheduleService: ScheduleService,
+    private serverService: ServerService) { 
    }
 
   ngOnInit(): void {
+    this.sub=this._Activatedroute.paramMap.subscribe(params => { 
+      this.id = Number(params.get('id')); 
+      this.serverService.getSchedule(this.id, 1).subscribe((x: Schedule)=>{
+        this.data = x;
+      })
+    });
   }
 
-  getSchedules(): void {
-    this.scheduleService.getSchedules().subscribe(sch =>{
-      this.schedules = sch;
-      console.log(this.schedules);
-      this.schedulesEmitter.next(this.schedules);
-    })
-  }
 }

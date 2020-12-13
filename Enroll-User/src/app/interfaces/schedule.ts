@@ -1,6 +1,10 @@
+import { Class } from './class';
+
 export interface Schedule{
-    id: number,
-    status?: number,
-    semester?: number,
-    description?: string
+    id?: number,
+    name: string,
+    status: string,
+    semester: number,
+    description: string,
+    classes: Class[]
 }

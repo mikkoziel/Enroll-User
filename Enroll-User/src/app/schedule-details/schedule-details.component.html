@@ -1,1 +1,25 @@
-<p>schedule-details works!</p>
+<div class="flex-column">
+    <!-- <p>schedule-details works!</p> -->
+    <!-- <p>{{ data?.id }}</p> -->
+    <p>Name: {{ data?.name }}</p>
+    <p>Semester: {{ data?.semester }}</p>   
+    <p>Description: {{ data?.description }}</p>  
+    <p>Status: {{ data?.status }}</p> 
+ 
+    <mat-divider></mat-divider>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState"
+                             (closed)="panelOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Classes
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-divider></mat-divider>
+            <app-class-overview [data]="data?.classes"></app-class-overview>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <app-calendar-schedule [data]="data?.classes"></app-calendar-schedule>
+</div>

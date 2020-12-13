@@ -1,0 +1,7 @@
+{
+    "/user-handler": {
+      "target":"http://localhost:3999/user-handler",
+      "secure": false,
+      "logLevel":"debug"
+    }
+}

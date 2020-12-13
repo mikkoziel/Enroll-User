@@ -1,0 +1,11 @@
+<div class="flex-column">
+    <div *ngFor="let class of (data); index as i"
+        class="schedule-box">
+        <p>{{ class.name }}</p>
+        <p>Groups:</p>
+        <li *ngFor="let group of class.groups">
+            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} Professor: {{group.professor_id}} 
+        </li>     
+        <mat-divider></mat-divider>
+    </div>
+</div>

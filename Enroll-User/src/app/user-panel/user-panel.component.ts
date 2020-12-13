@@ -1,4 +1,5 @@
 import { Component, OnInit, NgModule } from '@angular/core';
+import { ServerService } from '../services/server.service';
 
 @Component({
   selector: 'app-user-panel',
@@ -8,7 +9,7 @@ import { Component, OnInit, NgModule } from '@angular/core';
 export class UserPanelComponent implements OnInit {
   panelOpenState: boolean = false;
 
-  constructor() { }
+  constructor(private serverService: ServerService) { }
 
   ngOnInit(): void {
   }

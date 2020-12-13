@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +17,8 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { ScheduleOverviewComponent } from './schedule-overview/schedule-overview.component';
 import { ScheduleDetailsComponent } from './schedule-details/schedule-details.component';
+import { ClassOverviewComponent } from './class-overview/class-overview.component';
+import { CalendarScheduleComponent } from './calendar-schedule/calendar-schedule.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { ScheduleDetailsComponent } from './schedule-details/schedule-details.co
     UserPanelComponent,
     SideNavComponent,
     ScheduleOverviewComponent,
-    ScheduleDetailsComponent
+    ScheduleDetailsComponent,
+    ClassOverviewComponent,
+    CalendarScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,8 @@ import { ScheduleDetailsComponent } from './schedule-details/schedule-details.co
     MatSidenavModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatDividerModule
+    MatDividerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
