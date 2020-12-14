@@ -20,6 +20,9 @@ import { ScheduleDetailsComponent } from './schedule-details/schedule-details.co
 import { ClassOverviewComponent } from './class-overview/class-overview.component';
 import { CalendarScheduleComponent } from './calendar-schedule/calendar-schedule.component';
 
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +45,8 @@ import { CalendarScheduleComponent } from './calendar-schedule/calendar-schedule
     MatFormFieldModule,
     MatExpansionModule,
     MatDividerModule,
-    HttpClientModule
+    HttpClientModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [],
   bootstrap: [AppComponent]

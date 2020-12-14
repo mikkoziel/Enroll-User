@@ -11,6 +11,7 @@ export class ClassOverviewComponent implements OnInit {
   @Input() data: Class[];
 
   constructor() { }
+  
   ngOnInit(): void {
   }
 
