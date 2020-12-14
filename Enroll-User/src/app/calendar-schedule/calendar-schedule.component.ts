@@ -23,8 +23,8 @@ export class CalendarScheduleComponent implements OnInit{
   @Input() data: Class[];
   view: CalendarView = CalendarView.Week;
   viewDate: Date = new Date('2016-01-04 00:00');
-  dayStartHour: number = 0;
-  dayEndHour: number = 23;
+  dayStartHour: number = 8;
+  dayEndHour: number = 22;
   tooltipTemplate:  TemplateRef<any>;
 
   events: CalendarEvent[] = [
