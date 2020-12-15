@@ -17,9 +17,16 @@
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
-            <app-class-overview [data]="data?.classes"></app-class-overview>
+            <app-class-overview 
+                [data]="data?.classes"
+                [profs]="professors">
+            </app-class-overview>
         </mat-expansion-panel>
     </mat-accordion>
 
-    <app-calendar-schedule [data]="data?.classes"></app-calendar-schedule>
 </div>
+
+<app-calendar-schedule 
+            [data]="data?.classes"
+            [profs]="professors">
+</app-calendar-schedule>

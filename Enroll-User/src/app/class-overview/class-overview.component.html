@@ -3,9 +3,12 @@
         class="schedule-box">
         <p>{{ class.name }}</p>
         <p>Groups:</p>
-        <li *ngFor="let group of class.groups">
-            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} Professor: {{group.professor_id}} 
-        </li>     
+        <div *ngIf="profs !== undefined">
+            <li *ngFor="let group of class.groups">
+                {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
+                Professor: {{getProfessor(group.professor_id)}}
+            </li>     
+        </div>
         <mat-divider></mat-divider>
     </div>
 </div>

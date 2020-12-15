@@ -7,6 +7,7 @@ import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
 import { Professor } from '../interfaces/professor';
 import { Schedule } from '../interfaces/schedule';
+import { UserPreference } from '../interfaces/user-preference';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,31 @@ export class ServerService {
     )
   }
   
+  getProfessors() {
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/professors",
+      header).pipe(
+        // tap(x=> console.log(x)),
+        map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
+        catchError(this.handleError('getProfessors'))
+    )
+  }
+
+  getUPForUser(user_id: number) {
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/user-pref" + user_id.toString(),
+      header).pipe(
+        // tap(x=> console.log(x)),
+        map((x)=> this.parseStringToUPs(JSON.stringify(x))),
+        catchError(this.handleError('getUPForUser'))
+    )
+  }
   // --ERROR-----------------------------------------------------
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -91,7 +117,7 @@ export class ServerService {
 
   parseStringToProfessors(professors: any){
     let ret: Professor[] = [];
-    console.log(professors);
+    // console.log(professors);
     let profs = JSON.parse(professors);
     profs.professors.forEach((professor: any)=>{
       ret.push(this.parseStringToProfessor(professor));
@@ -100,7 +126,7 @@ export class ServerService {
   }
 
   parseStringToProfessor(professor: any){
-    console.log(professor)
+    // console.log(professor)
     return <Professor>{
       id: professor.professor_id,
       name: professor.name,
@@ -108,6 +134,26 @@ export class ServerService {
     }
   }
 
+  parseStringToUPs(ups: any){
+    let ret: UserPreference[] = [];
+    // console.log(ups);
+    let ups_json = JSON.parse(ups);
+    if(ups_json != null){
+      ups_json.user_preferences.forEach((up: any)=>{
+        ret.push(this.parseStringToUP(up));
+      });
+    }
+    return ret;
+  }
 
+  
+  parseStringToUP(up: any){
+    // console.log(professor)
+    return <UserPreference>{
+      user_id: up.user_id,
+      group_id: up.group_id,
+      points: up.points
+    }
+  }
 
 }

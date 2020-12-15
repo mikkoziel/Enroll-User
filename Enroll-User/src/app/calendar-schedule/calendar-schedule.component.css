@@ -1,0 +1,14 @@
+.flex-column { 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
+    padding: 0 0;
+    margin: 0 0;
+    margin-bottom: 0!;
+    overflow-wrap: break-word;
+}
+
+/* p{
+    displa
+} */

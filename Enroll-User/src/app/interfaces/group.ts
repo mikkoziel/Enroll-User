@@ -7,4 +7,5 @@ export interface Group{
     end: String,
     professor_id?: number
     class_id?: number
+    type?: String
 }
