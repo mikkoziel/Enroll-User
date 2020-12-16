@@ -24,9 +24,9 @@ import { User } from '../interfaces/user';
   styleUrls: ['./calendar-schedule.component.css']
 })
 export class CalendarScheduleComponent implements OnInit{
-  @Input() data: Class[];
-  @Input() profs: Professor[];
-  ups: UserPreference[] = undefined;
+  @Input() data: any;
+  // @Input() profs: Professor[];
+  // ups: UserPreference[] = undefined;
   currentUser: User;
   
   view: CalendarView = CalendarView.Week;
@@ -60,34 +60,36 @@ export class CalendarScheduleComponent implements OnInit{
 
   ngOnInit(){
     // console.log(this.ups)
-    // console.log(this.data)
+    console.log(this.data)
     // console.log(this.events)
     // console.log(this.profs)
     this.currentUser = <User> {id: 1};
-    this.serverService.getUPForUser(this.currentUser.id).subscribe((x: UserPreference[])=>{
-      this.ups = x;
-    })
+    // this.serverService.getUPForUser(this.currentUser.id).subscribe((x: UserPreference[])=>{
+    //   this.ups = x;
+    // })
   }
 
   waitForVars(){
-    let ups = this.ups!=undefined;
+    // let ups = this.ups!=undefined;
     let data = this.data!=null 
-    let events = this.events!=[]
-    let profs = this.profs!=undefined
+    // let events = this.events!=[]
+    // let profs = this.profs!=undefined
     // console.log(ups)
     // console.log(data)
     // console.log(events)
     // console.log(profs)
-    return  ups && 
-            data && 
-            events && 
-            profs;
+    return data //&& 
+            // ups    &&  
+            // events && 
+            // profs;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(this.waitForVars())
+    console.log(changes)
     let prop_data = changes["data"]?.currentValue;
-    if(prop_data != null && prop_data != undefined && prop_data.length>0){
+    if(prop_data != undefined){
+      console.log("TUTAJ")
       this.initGroups();
     }
     
@@ -95,7 +97,8 @@ export class CalendarScheduleComponent implements OnInit{
   }
 
   initGroups(){
-    this.data.forEach((cl: Class, index)=>{
+    this.data.schedule.classes.forEach((cl: Class)=>{
+      console.log(cl)
       cl.groups.forEach((gr:Group)=>{
         let start_hour: String = gr.start.split(":")[0]
         let start_min: String = gr.start.split(":")[1]
@@ -113,15 +116,16 @@ export class CalendarScheduleComponent implements OnInit{
         ];
       })
     })
+    console.log(this.events)
   }
 
   getUP(group_id: number){
-    let up = this.ups.filter(i=> i.group_id == group_id && i.user_id == this.currentUser.id)[0];
+    let up = this.data.ups.filter(i=> i.group_id == group_id && i.user_id == this.currentUser.id)[0];
     return up != undefined ? up.points : 0;
   }
   
   getProfessor(index: number){
-    let prof = this.profs.filter(i=> i.id == index)[0];
+    let prof = this.data.profs.filter(i=> i.id == index)[0];
     return prof != undefined ? prof.surname + " " + prof.name : "";
   }
 

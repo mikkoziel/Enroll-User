@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Professor } from '../interfaces/professor';
 import { Schedule } from '../interfaces/schedule';
+import { User } from '../interfaces/user';
+import { UserPreference } from '../interfaces/user-preference';
 import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
 
@@ -14,10 +16,13 @@ import { ServerService } from '../services/server.service';
 export class ScheduleDetailsComponent implements OnInit {
   panelOpenState: boolean = false;
   id: number;
-  data: Schedule;
   sub: Subscription;  
+
+  data;
   classes: Array<number> = [];
-  professors: Professor[];
+  // professors: Professor[];
+  // ups: UserPreference[];
+  currentUser: User;
   
   constructor(private _Activatedroute:ActivatedRoute,
     private scheduleService: ScheduleService,
@@ -25,14 +30,19 @@ export class ScheduleDetailsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.currentUser = <User> {id: 1};
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      this.serverService.getSchedule(this.id, 1).subscribe((x: Schedule)=>{
-        this.data = x;
-      })
-      this.serverService.getProfessors().subscribe((a:Professor[])=>{
-        this.professors = a;
-      })
+      // this.serverService.getSchedule(this.id, 1).subscribe((x: Schedule)=>{
+      //   this.data = x;
+      // })
+      // this.serverService.getProfessors().subscribe((a:Professor[])=>{
+      //   this.professors = a;
+      // })
+      this.serverService.getCombine(this.currentUser.id, this.id)
+        .subscribe((a:any)=>{
+              this.data = a;
+        })
     });
   }
 

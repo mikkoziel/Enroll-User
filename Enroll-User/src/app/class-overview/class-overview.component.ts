@@ -10,8 +10,8 @@ import { ServerService } from '../services/server.service';
   styleUrls: ['./class-overview.component.css']
 })
 export class ClassOverviewComponent implements OnInit {
-  @Input() data: Class[];
-  @Input() profs: Professor[];
+  @Input() data: any;
+  // @Input() profs: Professor[];
   // points: 
 
   constructor(private serverService: ServerService) { }
@@ -24,7 +24,7 @@ export class ClassOverviewComponent implements OnInit {
   }
 
   getProfessor(index: number){
-    let prof = this.profs.filter(i=> i.id == index)[0];
+    let prof = this.data.profs.filter(i=> i.id == index)[0];
     return prof?.surname + " " + prof?.name;
   }
 }

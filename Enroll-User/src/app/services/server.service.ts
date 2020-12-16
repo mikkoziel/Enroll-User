@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
 import { Professor } from '../interfaces/professor';
@@ -27,7 +27,7 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/schedules",
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseStringToSchedules(JSON.stringify(x))),
+        map((x)=> this.parseStringToSchedules(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getSchedules'))
     )
   }
@@ -54,7 +54,7 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/professors",
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
+        map((x)=> this.parseStringToProfessors(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getProfessors'))
     )
   }
@@ -67,7 +67,20 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/user-pref" + user_id.toString(),
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseStringToUPs(JSON.stringify(x))),
+        map((x)=> this.parseStringToUPs(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('getUPForUser'))
+    )
+  }
+
+  getCombine(user_id: number, schedule_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.get(this.httpAddress + "/combine/" + schedule_id.toString(),
+      header).pipe(
+        tap(x=> console.log(x)),
+        map((x)=> this.parseStringToCombine(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getUPForUser'))
     )
   }
@@ -84,8 +97,7 @@ export class ServerService {
   parseStringToSchedules(schedules: any){
     let ret: Schedule[] = [];
     // console.log(schedules);
-    let sch = JSON.parse(schedules);
-    sch.schedules.forEach((schedule: any)=>{
+    schedules.schedules.forEach((schedule: any)=>{
       ret.push(this.parseStringToSchedule(schedule));
     });
     return ret;
@@ -115,10 +127,9 @@ export class ServerService {
     };
   }
 
-  parseStringToProfessors(professors: any){
+  parseStringToProfessors(profs: any){
     let ret: Professor[] = [];
     // console.log(professors);
-    let profs = JSON.parse(professors);
     profs.professors.forEach((professor: any)=>{
       ret.push(this.parseStringToProfessor(professor));
     });
@@ -137,9 +148,8 @@ export class ServerService {
   parseStringToUPs(ups: any){
     let ret: UserPreference[] = [];
     // console.log(ups);
-    let ups_json = JSON.parse(ups);
-    if(ups_json != null){
-      ups_json.user_preferences.forEach((up: any)=>{
+    if(ups != null){
+      ups.user_preferences.forEach((up: any)=>{
         ret.push(this.parseStringToUP(up));
       });
     }
@@ -154,6 +164,14 @@ export class ServerService {
       group_id: up.group_id,
       points: up.points
     }
+  }
+
+  parseStringToCombine(comb: any){
+    let data={};
+    data["schedule"] = this.parseStringToSchedule(comb.schedule)
+    data["profs"] = this.parseStringToProfessors({ "professors": comb.professors})
+    data["ups"] = this.parseStringToUPs({"user_preferences": comb.user_preferences})
+    return data;
   }
 
 }
