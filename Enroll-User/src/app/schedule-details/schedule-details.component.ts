@@ -19,7 +19,7 @@ export class ScheduleDetailsComponent implements OnInit {
   sub: Subscription;  
 
   data;
-  classes: Array<number> = [];
+  // classes: Array<number> = [];
   // professors: Professor[];
   // ups: UserPreference[];
   currentUser: User;
