@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -7,13 +9,11 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  mail: any;
-  password: any;
-  user = null;
-
-  userEmitter = new BehaviorSubject(this.user);   
+  modelForm: FormGroup;
+  currentUser: User = null; 
 
   constructor(
+    private formBuilder : FormBuilder,
     // private authService: AuthService,
     // private wycieczkiService: WycieczkiServiceService,
     // private dbService: DbService
@@ -21,6 +21,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getUser();
+    this.modelForm = this.formBuilder.group({
+      mail: ['', Validators.required],
+      password: ['', Validators.required]
+    })
   }
 
   getUser(): void{

@@ -1,21 +1,11 @@
-import {
-  Input,
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  TemplateRef,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Input, Component, TemplateRef, OnInit, SimpleChanges } from '@angular/core';
 import { Time, WeekDay } from '@angular/common';
 import { CalendarEvent, CalendarView, DAYS_OF_WEEK } from 'angular-calendar';
 import { addMinutes, addHours, endOfDay, startOfDay } from 'date-fns';
 
 import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
-import { Professor } from '../interfaces/professor';
 import { ServerService } from '../services/server.service';
-import { UserPreference } from '../interfaces/user-preference';
 import { User } from '../interfaces/user';
 
 @Component({
@@ -25,15 +15,13 @@ import { User } from '../interfaces/user';
 })
 export class CalendarScheduleComponent implements OnInit{
   @Input() data: any;
-  // @Input() profs: Professor[];
-  // ups: UserPreference[] = undefined;
   currentUser: User;
   
   view: CalendarView = CalendarView.Week;
   viewDate: Date = new Date('2016-01-04 00:00');
   dayStartHour: number = 8;
   dayEndHour: number = 22;
-  tooltipTemplate:  TemplateRef<any>;
+  // tooltipTemplate:  TemplateRef<any>;
 
   events: CalendarEvent[] = [
     // {
@@ -59,46 +47,25 @@ export class CalendarScheduleComponent implements OnInit{
   }
 
   ngOnInit(){
-    // console.log(this.ups)
-    console.log(this.data)
-    // console.log(this.events)
-    // console.log(this.profs)
     this.currentUser = <User> {id: 1};
-    // this.serverService.getUPForUser(this.currentUser.id).subscribe((x: UserPreference[])=>{
-    //   this.ups = x;
-    // })
   }
 
   waitForVars(){
-    // let ups = this.ups!=undefined;
+    // let ups = this.ups!=undefined
     let data = this.data!=null 
-    // let events = this.events!=[]
-    // let profs = this.profs!=undefined
-    // console.log(ups)
-    // console.log(data)
-    // console.log(events)
-    // console.log(profs)
-    return data //&& 
-            // ups    &&  
-            // events && 
-            // profs;
+    return data;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.waitForVars())
-    console.log(changes)
+    // console.log(changes)
     let prop_data = changes["data"]?.currentValue;
     if(prop_data != undefined){
-      console.log("TUTAJ")
       this.initGroups();
     }
-    
-    // console.log(this.waitForVars())
   }
 
   initGroups(){
     this.data.schedule.classes.forEach((cl: Class)=>{
-      console.log(cl)
       cl.groups.forEach((gr:Group)=>{
         let start_hour: String = gr.start.split(":")[0]
         let start_min: String = gr.start.split(":")[1]

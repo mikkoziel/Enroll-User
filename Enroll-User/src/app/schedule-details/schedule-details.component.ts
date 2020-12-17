@@ -18,14 +18,10 @@ export class ScheduleDetailsComponent implements OnInit {
   id: number;
   sub: Subscription;  
 
-  data;
-  // classes: Array<number> = [];
-  // professors: Professor[];
-  // ups: UserPreference[];
+  data: any;
   currentUser: User;
   
   constructor(private _Activatedroute:ActivatedRoute,
-    private scheduleService: ScheduleService,
     private serverService: ServerService) { 
    }
 
@@ -33,12 +29,6 @@ export class ScheduleDetailsComponent implements OnInit {
     this.currentUser = <User> {id: 1};
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      // this.serverService.getSchedule(this.id, 1).subscribe((x: Schedule)=>{
-      //   this.data = x;
-      // })
-      // this.serverService.getProfessors().subscribe((a:Professor[])=>{
-      //   this.professors = a;
-      // })
       this.serverService.getCombine(this.currentUser.id, this.id)
         .subscribe((a:any)=>{
               this.data = a;

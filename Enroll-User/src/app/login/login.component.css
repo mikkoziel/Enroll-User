@@ -3,11 +3,12 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
+    flex-wrap: wrap;
 }
 
 
 .example-full-width {
-    width: 100%;
+    width: wrap;
 }
 
 .login-div {
