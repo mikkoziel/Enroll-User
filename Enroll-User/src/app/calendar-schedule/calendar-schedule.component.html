@@ -45,8 +45,10 @@
                     let-tooltipTemplate="tooltipTemplate" 
                     let-tooltipAppendToBody="tooltipAppendToBody" 
                     let-tooltipDisabled="tooltipDisabled">
-    <div class="cal-event flex-column" *ngIf="waitForVars()"
-            (mwlClick)="eventClicked.emit({ event: weekEvent.event })" >
+    <div class="cal-event flex-column" 
+          *ngIf="waitForVars()"
+          (mwlClick)="eventClicked.emit({ event: weekEvent.event })" 
+          [style.backgroundColor]="weekEvent.event.color?.secondary">
       <div>{{ weekEvent.event.title }}</div>
       {{getProfessor(weekEvent.event.meta.group.professor_id)}}
       <div>
