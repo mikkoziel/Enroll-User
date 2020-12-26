@@ -52,11 +52,11 @@
       <div>{{ weekEvent.event.title }}</div>
       {{getProfessor(weekEvent.event.meta.group.professor_id)}}
       <div>
-        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+        <button mat-icon-button class="event-icon" color="primary" aria-label="Example icon button with a home icon">
           <mat-icon>remove</mat-icon>
         </button>
         {{getUP(weekEvent.event.meta.group.group_id)}}
-        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+        <button mat-icon-button class="event-icon" color="primary" aria-label="Example icon button with a home icon">
           <mat-icon>add</mat-icon>
         </button>
       </div>

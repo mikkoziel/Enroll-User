@@ -9,6 +9,10 @@
     overflow-wrap: break-word;
 }
 
-/* p{
-    displa
-} */
+.cal-event {
+    color: black;
+}
+
+.event-icon {
+    color: black;
+}
