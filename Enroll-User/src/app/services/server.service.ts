@@ -111,20 +111,30 @@ export class ServerService {
       semester: schedule.semester,
       description: schedule.description,
       classes: Array.from(schedule.classes, (cl: any) => 
-        <Class>{
-          id: cl.classId,
-          name: cl.name,
-          groups: Array.from(cl.groups, (group: any) =>
-            <Group>{
-              id: group.groupId,
-              day: group.day,
-              start: group.start,
-              end: group.end,
-              professor_id: group.professor_id
-            }
-          )   
-      })
+        this.parseStringToClass(cl))
     };
+  }
+
+  parseStringToClass(cl:any){
+    return <Class>{
+      id: cl.classId,
+      name: cl.name,
+      full_name: cl.full_name,
+      groups: Array.from(cl.groups, (group: any) =>
+        this.parseStringToGroup(group)
+      ) 
+    }
+  }
+
+  parseStringToGroup(group: any){
+    return <Group>{
+      id: group.groupId,
+      day: group.day,
+      start: group.start,
+      end: group.end,
+      professor_id: group.professor_id,
+      type: group.type
+    }
   }
 
   parseStringToProfessors(profs: any){
