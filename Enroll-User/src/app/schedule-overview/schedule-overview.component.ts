@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Schedule } from '../interfaces/schedule';
+import { User } from '../interfaces/user';
 import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
 
@@ -11,21 +12,23 @@ import { ServerService } from '../services/server.service';
 })
 export class ScheduleOverviewComponent implements OnInit {
   schedules: Schedule[] = null;
-  
-  schedulesEmitter = new BehaviorSubject<Schedule[]>(this.schedules);
 
-  constructor(private scheduleService: ScheduleService,
-    private serverService: ServerService) { 
-      this.getSchedules();
+  currentUser: User;
+  
+  constructor(
+    // private scheduleService: ScheduleService,
+    private serverService: ServerService) {
    }
 
   ngOnInit(): void {
+    this.currentUser = <User>{id:1} 
+    this.getSchedules();
   }
 
   getSchedules(){
-    this.serverService.getSchedules(1).subscribe((x: Schedule[])=> {
-      this.schedules = x;    
-      this.schedulesEmitter.next(this.schedules);});
+    this.serverService.getSchedules(this.currentUser.id).subscribe((x: Schedule[])=> {
+      this.schedules = x;
+    });
   }
 
 }

@@ -84,6 +84,23 @@ export class ServerService {
         catchError(this.handleError('getUPForUser'))
     )
   }
+  
+  // --UPDATE -----------------------------------------------------
+ 
+  updateUP(up: UserPreference){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': up.user_id.toString()
+    })};
+    return this.http.put(this.httpAddress + "/user-pref" ,
+    JSON.stringify(up),
+      header).pipe(
+        tap(x=> console.log(x)),
+        // map((x)=> this.parseStringToCombine(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('updateUP'))
+    )
+  }
+
   // --ERROR-----------------------------------------------------
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

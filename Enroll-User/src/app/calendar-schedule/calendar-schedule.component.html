@@ -51,12 +51,13 @@
           [style.backgroundColor]="weekEvent.event.color?.secondary">
       <div>{{ weekEvent.event.title }}</div>
       {{getProfessor(weekEvent.event.meta.group.professor_id)}}
-      <div>
-        <button mat-icon-button class="event-icon" color="primary" aria-label="Example icon button with a home icon">
+      <div *ngIf="checkButtons(weekEvent.event.meta.group)">
+        <button mat-icon-button class="event-icon" color="primary" (click)="subPoint(weekEvent.event.meta)">
           <mat-icon>remove</mat-icon>
         </button>
-        {{getUP(weekEvent.event.meta.group.group_id)}}
-        <button mat-icon-button class="event-icon" color="primary" aria-label="Example icon button with a home icon">
+        <!-- {{getUP(weekEvent.event.meta.group.group_id)}} -->
+        {{ weekEvent.event.meta.up }}
+        <button mat-icon-button class="event-icon" color="primary" (click)="addPoint(weekEvent.event.meta)">
           <mat-icon>add</mat-icon>
         </button>
       </div>

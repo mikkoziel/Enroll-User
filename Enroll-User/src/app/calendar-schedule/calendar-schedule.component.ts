@@ -7,6 +7,7 @@ import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
 import { ServerService } from '../services/server.service';
 import { User } from '../interfaces/user';
+import { UserPreference } from '../interfaces/user-preference';
 
 var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
 		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -77,7 +78,7 @@ export class CalendarScheduleComponent implements OnInit{
               primary: colorArray[index], 
               secondary: colorArray[index]
             },
-            meta:{group: gr, class: cl}
+            meta:{group: gr, class: cl, up:this.getUP(gr.id)}
           },
         ];
       })
@@ -93,6 +94,49 @@ export class CalendarScheduleComponent implements OnInit{
   getProfessor(index: number){
     let prof = this.data.profs.filter(i=> i.id == index)[0];
     return prof != undefined ? prof.surname + " " + prof.name : "";
+  }
+
+  addPoint(meta: { group: any; class: any; }) {
+    let groupEvent = this.events.filter(i=>i.meta.group == meta.group)[0]
+    let classEvents = this.events.filter(i=>i.meta.class == meta.class)
+    let avaiable_point = 20
+    for(var e of classEvents){
+      avaiable_point -= e.meta.up
+    }
+    if(groupEvent.meta.up < 10 && avaiable_point > 0){
+      groupEvent.meta.up++
+      let up = <UserPreference>{
+        user_id: this.currentUser.id,
+        group_id: meta.group.id,
+        points: groupEvent.meta.up
+      }
+      this.serverService.updateUP(up).subscribe(res=>{
+        console.log(res)
+      })
+    }
+
+  }
+
+  subPoint(meta: { group: any; }) {
+    let groupEvent = this.events.filter(i=>i.meta.group == meta.group)[0]
+    if(groupEvent.meta.up > 0){
+      groupEvent.meta.up--
+      let up = <UserPreference>{
+        user_id: this.currentUser.id,
+        group_id: meta.group.id,
+        points: groupEvent.meta.up
+      }
+      this.serverService.updateUP(up).subscribe(res=>{
+        console.log(res)
+      })
+    }
+
+  }
+
+  checkButtons(group){
+    let status = this.data.schedule.status=='ENROLLMENT'
+    let type = group.type=='LABORATORY'
+    return status && type
   }
 
 }

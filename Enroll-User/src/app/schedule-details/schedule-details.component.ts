@@ -31,6 +31,7 @@ export class ScheduleDetailsComponent implements OnInit {
       this.id = Number(params.get('id')); 
       this.serverService.getCombine(this.currentUser.id, this.id)
         .subscribe((a:any)=>{
+            console.log(a)
               this.data = a;
         })
     });
